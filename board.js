@@ -63,6 +63,22 @@ Board.prototype.at = function(x, y) {
 }
 
 Board.prototype.getNeighborCosts = function(x, y) {
+    var turnCost = Math.ceil(this.at(x, y) / 3);
+    var costs = [[], [], []];
+    // Add forward costs
+    costs[0].push(this.at(x, y + 1));
+    // Bash forward
+    costs[0].push(3 + this.at(x, y + 2));
+
+    // Add left costs
+    costs[1].push(Math.ceil(turnCost + this.at(x - 1, y));
+    costs[1].push(Math.ceil(turnCost + 3 + this.at(x - 2, y));
+    
+    // Add right costs
+    costs[2].push(Math.ceil(turnCost + this.at(x + 1, y));
+    costs[2].push(Math.ceil(turnCost + 3 + this.at(x + 2, y));
+
+    return costs;
 };
 
 Board.prototype.toString = function() {
