@@ -1,12 +1,17 @@
 var fs = require('fs');
 var parse = require('csv-parse');
-fs = require('fs')
+fs = require('fs');
 
 
 function Board() {
     this.grid = [];
 }
 
+/**
+ * Loads the grid from a text file
+ * @param file The filename
+ * @param callback The callback to call when finished
+ */
 Board.prototype.loadGrid = function(file, callback) {
     // To maintain scoping
     var _this = this;
@@ -41,7 +46,7 @@ Board.prototype.loadGrid = function(file, callback) {
         }
         console.log('Done');
 
-        // Execute callback
+        // Kick off the rest of the program
         callback();
     });
 
@@ -58,9 +63,15 @@ Board.prototype.loadGrid = function(file, callback) {
     });
 };
 
+/**
+ * Returns the value at a given coordinate
+ * @param x the x coordinate
+ * @param y the y coordinate
+ * @returns A string with the value in that square
+ */
 Board.prototype.at = function(x, y) {
     return this.grid[y][x];
-}
+};
 
 Board.prototype.getNeighborCosts = function(x, y) {
     var turnCost = Math.ceil(this.at(x, y) / 3);
@@ -81,6 +92,10 @@ Board.prototype.getNeighborCosts = function(x, y) {
     return costs;
 };
 
+/**
+ * Serializes the board to a string
+ * @returns {string} The board serialized
+ */
 Board.prototype.toString = function() {
     s = '';
     // Iterate through grid
@@ -91,6 +106,6 @@ Board.prototype.toString = function() {
         s += '\n';
     }
     return s;
-}
+};
 
-module.exports = Board
+module.exports = Board;

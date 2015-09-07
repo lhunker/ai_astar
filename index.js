@@ -1,7 +1,12 @@
-var Board = require('./board')
+var Board = require('./board');
 
 board = new Board();
-board.loadGrid('grid', function() {
+board.loadGrid('grid', main);
+
+/**
+ * The main function for after the board is loaded
+ */
+function main() {
         s = board.toString();
         console.log(s);
-});
+}
