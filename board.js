@@ -41,7 +41,7 @@ Board.prototype.loadGrid = function(file, callback) {
             // For each entry in line
             for (var j = 0; j < data[i].length; j++) {
                 // Set value in grid
-                _this.grid[_this.grid.length - 1].push(data[i][j]);
+                _this.grid[_this.grid.length - 1].push(parseInt(data[i][j]));
             }
         }
         console.log('Done');
@@ -73,21 +73,50 @@ Board.prototype.at = function(x, y) {
     return this.grid[y][x];
 };
 
+/**
+ * Returns the costs for neighbors of a given coordinate
+ * @param x the x coordinate
+ * @param y the y coordinate
+ * @returns An object representing the various movement costs
+ */
 Board.prototype.getNeighborCosts = function(x, y) {
     var turnCost = Math.ceil(this.at(x, y) / 3);
-    var costs = [[], [], []];
-    // Add forward costs
-    costs[0].push(this.at(x, y + 1));
-    // Bash forward
-    costs[0].push(3 + this.at(x, y + 2));
+    var costs = {};
+    if (y == 0) {
+        costs.forward = -1;
+        costs.forwardBash = -1;
+    } else {
+        costs.forward = this.at(x, y - 1);
+        if (y == 1) {
+            costs.forwardBash = -1;
+        } else {
+            costs.forwardBash = 3 + this.at(x, y - 2);
+        }
+    }
 
-    // Add left costs
-    costs[1].push(Math.ceil(turnCost + this.at(x - 1, y));
-    costs[1].push(Math.ceil(turnCost + 3 + this.at(x - 2, y));
-    
-    // Add right costs
-    costs[2].push(Math.ceil(turnCost + this.at(x + 1, y));
-    costs[2].push(Math.ceil(turnCost + 3 + this.at(x + 2, y));
+    if (x == 0) {
+        costs.left = -1;
+        costs.leftBash = -1;
+    }
+    else if (x < 2) {
+        costs.left = Math.ceil(turnCost + this.at(x - 1, y));
+        costs.leftBash = -1;
+    } else {
+        costs.left = Math.ceil(turnCost + this.at(x - 1, y));
+        costs.leftBash = Math.ceil(turnCost + 3 + this.at(x - 2, y));
+    }
+
+    if (x == this.grid.length - 1) {
+        costs.right = -1;
+        costs.rightBash = -1;
+    }
+    else if (x > this.grid.length - 3) {
+        costs.right = Math.ceil(turnCost + this.at(x + 1, y));
+        costs.rightBash = -1;
+    } else {
+        costs.right = Math.ceil(turnCost + this.at(x + 1, y));
+        costs.rightBash = Math.ceil(turnCost + 3 + this.at(x + 2, y));
+    }
 
     return costs;
 };
