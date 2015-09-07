@@ -1,0 +1,23 @@
+{
+  "name": "ai_astar",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lhunker/ai_astar.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/lhunker/ai_astar/issues"
+  },
+  "dependencies": {
+    "csv": "~0.4.6",
+    "csv-parse": "~1.0.0",
+    "fs": "0.0.2"
+  }
+}
