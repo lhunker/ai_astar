@@ -82,11 +82,14 @@ Board.prototype.at = function(x, y) {
 Board.prototype.getNeighborCosts = function(x, y) {
     var turnCost = Math.ceil(this.at(x, y) / 3);
     var costs = {};
+    // Calculate forward costs
+    // At edge of map
     if (y == 0) {
         costs.forward = -1;
         costs.forwardBash = -1;
     } else {
         costs.forward = this.at(x, y - 1);
+        // If one away from edge of map
         if (y == 1) {
             costs.forwardBash = -1;
         } else {
@@ -94,10 +97,12 @@ Board.prototype.getNeighborCosts = function(x, y) {
         }
     }
 
+    // If at left edge of map
     if (x == 0) {
         costs.left = -1;
         costs.leftBash = -1;
     }
+    // If almost at left edge of map
     else if (x < 2) {
         costs.left = Math.ceil(turnCost + this.at(x - 1, y));
         costs.leftBash = -1;
@@ -106,10 +111,12 @@ Board.prototype.getNeighborCosts = function(x, y) {
         costs.leftBash = Math.ceil(turnCost + 3 + this.at(x - 2, y));
     }
 
+    // If at right edge of map
     if (x == this.grid.length - 1) {
         costs.right = -1;
         costs.rightBash = -1;
     }
+    // If almost at right edge of map
     else if (x > this.grid.length - 3) {
         costs.right = Math.ceil(turnCost + this.at(x + 1, y));
         costs.rightBash = -1;
