@@ -45,10 +45,14 @@ Board.prototype.loadGrid = function(file, callback) {
                 // Set value in grid
                 if (data[i][j] === 'G') {
                     _this.goal = {x: j, y: i};
+                    _this.grid[_this.grid.length - 1].push(1);
                 } else if (data[i][j] === 'S') {
                     _this.start = {x: j, y: i};
+                    _this.grid[_this.grid.length - 1].push(1);
+                } else {
+                    _this.grid[_this.grid.length - 1].push(parseInt(data[i][j]));
                 }
-                _this.grid[_this.grid.length - 1].push(parseInt(data[i][j]));
+
             }
         }
         console.log('Done');
