@@ -118,22 +118,15 @@ Board.prototype.checkMove = function(x, y, sq) {
     return 2;
 };
 
-/**
- * Returns the costs for neighbors of a given coordinate
- * @param x the x coordinate
- * @param y the y coordinate
- * @param path Current path as a string
- * @param facing NSEW representing current direction
- * @returns {} object containing squares for each possible movement from this square
- */
-Board.prototype.getNeighbors = function(x, y, path, facing) {
-    var turnCost = Math.ceil(this.at(x, y) / 3);
-    var bashCost = 3;
-    var costs = {};
 
-    // Determine new direction for a given facing/move
-    var dirs = {'forward': facing};
-    switch(facing) {
+/**
+ * Calculates relative directions
+ * @param dir Current direction as NSEW
+ * @returns An object with relative directions for heading
+ */
+Board.prototype.changeDirection = function(dir) {
+    var dirs = {'forward': dir};
+    switch(dir) {
         case 'N':
             dirs.left = 'W';
             dirs.right = 'E';
@@ -152,7 +145,27 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
             break;
     }
 
+    return dirs;
+}
+
+/**
+ * Returns the costs for neighbors of a given coordinate
+ * @param x the x coordinate
+ * @param y the y coordinate
+ * @param path Current path as a string
+ * @param facing NSEW representing current direction
+ * @returns {} object containing squares for each possible movement from this square
+ */
+Board.prototype.getNeighbors = function(x, y, path, facing) {
+    var turnCost = Math.ceil(this.at(x, y) / 3);
+    var bashCost = 3;
+    var costs = {};
+
+    // Determine new direction for a given facing/move
+    var dirs = this.changeDirection(facing);
+
     var leftSq = {}, forwardSq = {}, rightSq = {};
+    // Set coordinates for every possible move
     if (facing === 'N' || facing === 'S') {
         // For N and S facings, Y values don't change for left/right
         leftSq.y = y;
