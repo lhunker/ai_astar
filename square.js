@@ -25,7 +25,13 @@ function Square(location, cost, path, direction) {
  * @returns [square] and array of squares for the expanded nodes
  */
 Square.prototype.expand = function (board) {
-    return board.getNeighbors(this.location.x, this.location.y, this.path, this.direction);
+    var _this = this;
+    var neighbors = board.getNeighbors(this.location.x, this.location.y, this.path, this.direction);
+    neighbors.forEach(function (n) {
+        n.cost = n.cost + _this.cost;
+    });
+
+    return neighbors;
 };
 
 /**
