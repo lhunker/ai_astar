@@ -74,55 +74,113 @@ Board.prototype.at = function(x, y) {
 };
 
 /**
+ * Returns whether a move is valid
+ * @param x the x coordinate
+ * @param y the y coordinate
+ * @param sq coordinates after attempted move/bash
+ * @returns 0 if off map, 1 if bash off map, 2 if all valid
+ */
+Board.prototype.checkMove = function(x, y, sq) {
+    if (0 > sq.y || sq.y >= this.grid.length) return 0;
+    if (0 > sq.x || sq.x >= this.grid[sq.y].length) return 0;
+    if (0 > sq.yBash || sq.yBash >= this.grid.length) return 1;
+    if (0 > sq.xBash || sq.xBash >= this.grid[sq.yBash].length) return 1;
+    return 2;
+}
+
+/**
  * Returns the costs for neighbors of a given coordinate
  * @param x the x coordinate
  * @param y the y coordinate
+ * @param facing NSEW representing current direction
  * @returns An object representing the various movement costs
  */
-Board.prototype.getNeighborCosts = function(x, y) {
+Board.prototype.getNeighborCosts = function(x, y, facing) {
     var turnCost = Math.ceil(this.at(x, y) / 3);
+    var bashCost = 3;
     var costs = {};
-    // Calculate forward costs
-    // At edge of map
-    if (y == 0) {
+
+    var leftSq = {}, forwardSq = {}, rightSq = {};
+    if (facing == 'N' || facing == 'S') {
+        // For N and S facings, Y values don't change for left/right
+        leftSq.y = y;
+        rightSq.y = y;
+        leftSq.yBash = y;
+        rightSq.yBash = y;
+        // If moving forward, X values don't change
+        forwardSq.x = x;
+        forwardSq.xBash = x;
+
+        // Calculate new X values
+        leftSq.x = x + (facing == 'N' ? -1 : 1);
+        leftSq.xBash = x + 2 * (facing == 'N' ? -1 : 1);
+        rightSq.x = x - (facing == 'N' ? -1 : 1);
+        rightSq.xBash = x - 2 * (facing == 'N' ? -1 : 1);
+        // Calculate new Y values
+        forwardSq.y = y + (facing == 'N' ? -1 : 1);
+        forwardSq.yBash = y + 2 * (facing == 'N' ? -1 : 1);
+    } else if (facing == 'E' || facing == 'W') {
+        // If facing E or W, X location doesn't change
+        leftSq.x = x;
+        rightSq.x = x;
+        leftSq.xBash = x;
+        rightSq.xBash = x;
+        // If moving forwards, Y value does not change
+        forwardSq.y = y;
+        forwardSq.yBash = y;
+
+        // Calculate new Y values
+        leftSq.y = y + (facing == 'E' ? -1 : 1);
+        leftSq.yBash = y + 2 * (facing == 'E' ? -1 : 1);
+        rightSq.y = y - (facing == 'E' ? -1 : 1);
+        rightSq.yBash = y - 2 * (facing == 'E' ? -1 : 1);
+        // Calculate new X values
+        forwardSq.x = x + (facing == 'W' ? -1 : 1);
+        forwardSq.xBash = x + 2 * (facing == 'W' ? -1 : 1);
+    }
+
+    // Check validity of forward motion
+    var forwardValid = this.checkMove(x, y, forwardSq);
+    // If forward is not valid
+    if (forwardValid == 0) {
         costs.forward = -1;
         costs.forwardBash = -1;
     } else {
-        costs.forward = this.at(x, y - 1);
-        // If one away from edge of map
-        if (y == 1) {
+        costs.forward = this.at(forwardSq.x, forwardSq.y);
+        // If can move but not bash
+        if (forwardValid == 1) {
             costs.forwardBash = -1;
         } else {
-            costs.forwardBash = 3 + this.at(x, y - 2);
+            costs.forwardBash = bashCost + this.at(forwardSq.xBash, forwardSq.yBash);
         }
     }
 
-    // If at left edge of map
-    if (x == 0) {
+    // Check validity of left motion
+    var leftValid = this.checkMove(x, y, leftSq);
+    if (leftValid == 0) {
         costs.left = -1;
         costs.leftBash = -1;
-    }
-    // If almost at left edge of map
-    else if (x < 2) {
-        costs.left = Math.ceil(turnCost + this.at(x - 1, y));
-        costs.leftBash = -1;
     } else {
-        costs.left = Math.ceil(turnCost + this.at(x - 1, y));
-        costs.leftBash = Math.ceil(turnCost + 3 + this.at(x - 2, y));
+        costs.left = Math.ceil(turnCost + this.at(leftSq.x, leftSq.y));
+        if (leftValid == 1) {
+            costs.leftBash = -1;
+        } else {
+            costs.leftBash = Math.ceil(turnCost + bashCost + this.at(leftSq.xBash, leftSq.yBash));
+        }
     }
 
-    // If at right edge of map
-    if (x == this.grid.length - 1) {
+    // Check validity of right turn
+    var rightValid = this.checkMove(x, y, rightSq);
+    if (rightValid == 0) {
         costs.right = -1;
         costs.rightBash = -1;
-    }
-    // If almost at right edge of map
-    else if (x > this.grid.length - 3) {
-        costs.right = Math.ceil(turnCost + this.at(x + 1, y));
-        costs.rightBash = -1;
     } else {
-        costs.right = Math.ceil(turnCost + this.at(x + 1, y));
-        costs.rightBash = Math.ceil(turnCost + 3 + this.at(x + 2, y));
+        costs.right = Math.ceil(turnCost + this.at(rightSq.x, rightSq.y));
+        if (rightValid == 1) {
+            costs.rightBash = -1;
+        } else {
+            costs.rightBash = Math.ceil(turnCost + bashCost + this.at(rightSq.xBash, rightSq.yBash));
+        }
     }
 
     return costs;
