@@ -9,4 +9,12 @@ board.loadGrid('grid', main);
 function main() {
         s = board.toString();
         console.log(s);
+
+        //Find start - add to frontiers
+
+        //while top frontiers !== goal
+        //pop top node and expand
+        //sort list
+
+        //take top node and print solution
 }

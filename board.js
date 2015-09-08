@@ -86,7 +86,7 @@ Board.prototype.checkMove = function(x, y, sq) {
     if (0 > sq.yBash || sq.yBash >= this.grid.length) return 1;
     if (0 > sq.xBash || sq.xBash >= this.grid[sq.yBash].length) return 1;
     return 2;
-}
+};
 
 /**
  * Returns the costs for neighbors of a given coordinate
@@ -101,7 +101,7 @@ Board.prototype.getNeighborCosts = function(x, y, facing) {
     var costs = {};
 
     var leftSq = {}, forwardSq = {}, rightSq = {};
-    if (facing == 'N' || facing == 'S') {
+    if (facing === 'N' || facing === 'S') {
         // For N and S facings, Y values don't change for left/right
         leftSq.y = y;
         rightSq.y = y;
@@ -112,14 +112,14 @@ Board.prototype.getNeighborCosts = function(x, y, facing) {
         forwardSq.xBash = x;
 
         // Calculate new X values
-        leftSq.x = x + (facing == 'N' ? -1 : 1);
-        leftSq.xBash = x + 2 * (facing == 'N' ? -1 : 1);
-        rightSq.x = x - (facing == 'N' ? -1 : 1);
-        rightSq.xBash = x - 2 * (facing == 'N' ? -1 : 1);
+        leftSq.x = x + (facing === 'N' ? -1 : 1);
+        leftSq.xBash = x + 2 * (facing === 'N' ? -1 : 1);
+        rightSq.x = x - (facing === 'N' ? -1 : 1);
+        rightSq.xBash = x - 2 * (facing === 'N' ? -1 : 1);
         // Calculate new Y values
-        forwardSq.y = y + (facing == 'N' ? -1 : 1);
-        forwardSq.yBash = y + 2 * (facing == 'N' ? -1 : 1);
-    } else if (facing == 'E' || facing == 'W') {
+        forwardSq.y = y + (facing === 'N' ? -1 : 1);
+        forwardSq.yBash = y + 2 * (facing === 'N' ? -1 : 1);
+    } else if (facing === 'E' || facing === 'W') {
         // If facing E or W, X location doesn't change
         leftSq.x = x;
         rightSq.x = x;
@@ -142,7 +142,7 @@ Board.prototype.getNeighborCosts = function(x, y, facing) {
     // Check validity of forward motion
     var forwardValid = this.checkMove(x, y, forwardSq);
     // If forward is not valid
-    if (forwardValid == 0) {
+    if (forwardValid === 0) {
         costs.forward = -1;
         costs.forwardBash = -1;
     } else {
@@ -157,7 +157,7 @@ Board.prototype.getNeighborCosts = function(x, y, facing) {
 
     // Check validity of left motion
     var leftValid = this.checkMove(x, y, leftSq);
-    if (leftValid == 0) {
+    if (leftValid === 0) {
         costs.left = -1;
         costs.leftBash = -1;
     } else {
@@ -171,12 +171,12 @@ Board.prototype.getNeighborCosts = function(x, y, facing) {
 
     // Check validity of right turn
     var rightValid = this.checkMove(x, y, rightSq);
-    if (rightValid == 0) {
+    if (rightValid === 0) {
         costs.right = -1;
         costs.rightBash = -1;
     } else {
         costs.right = Math.ceil(turnCost + this.at(rightSq.x, rightSq.y));
-        if (rightValid == 1) {
+        if (rightValid === 1) {
             costs.rightBash = -1;
         } else {
             costs.rightBash = Math.ceil(turnCost + bashCost + this.at(rightSq.xBash, rightSq.yBash));
