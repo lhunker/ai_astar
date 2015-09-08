@@ -1,5 +1,6 @@
 var fs = require('fs');
 var parse = require('csv-parse');
+var Square = require('./square');
 fs = require('fs');
 
 
@@ -120,13 +121,35 @@ Board.prototype.checkMove = function(x, y, sq) {
  * Returns the costs for neighbors of a given coordinate
  * @param x the x coordinate
  * @param y the y coordinate
+ * @param path Current path as a string
  * @param facing NSEW representing current direction
- * @returns An object representing the various movement costs
+ * @returns An object containing squares for each possible movement from this square
  */
-Board.prototype.getNeighborCosts = function(x, y, facing) {
+Board.prototype.getNeighbors = function(x, y, path, facing) {
     var turnCost = Math.ceil(this.at(x, y) / 3);
     var bashCost = 3;
     var costs = {};
+
+    // Determine new direction for a given facing/move
+    var dirs = {'forward': facing};
+    switch(facing) {
+        case 'N':
+            dirs.left = 'W';
+            dirs.right = 'E';
+            break;
+        case 'S':
+            dirs.left = 'E';
+            dirs.right = 'W';
+            break;
+        case 'E':
+            dirs.left = 'N';
+            dirs.right = 'S';
+            break;
+        case 'W':
+            dirs.left = 'S';
+            dirs.right = 'N';
+            break;
+    }
 
     var leftSq = {}, forwardSq = {}, rightSq = {};
     if (facing === 'N' || facing === 'S') {
@@ -211,7 +234,22 @@ Board.prototype.getNeighborCosts = function(x, y, facing) {
         }
     }
 
-    return costs;
+    // Create object containing new squares
+    var squares = {};
+    if (costs.left > 0)
+        squares.left = new Square({x: leftSq.x, y: leftSq.y}, costs.left, path + ', Move left', dirs.left);
+    if (costs.leftBash > 0)
+        squares.leftBash = new Square({x: leftSq.xBash, y: leftSq.yBash}, costs.leftBash, path + ', Bash left', dirs.left);
+    if (costs.right > 0)
+        squares.right = new Square({x: rightSq.x, y: rightSq.y}, costs.right, path + ', Move right', dirs.right);
+    if (costs.rightBash > 0)
+        squares.rightBash = new Square({x: rightSq.xBash, y: rightSq.yBash}, costs.rightBash, path + ', Bash right', dirs.right);
+    if (costs.forward > 0)
+        squares.forward = new Square({x: forwardSq.x, y: forwardSq.y}, costs.forward, path + ', Move forward', dirs.forward);
+    if (costs.forwardBash > 0)
+        squares.forwardBash = new Square({x: forwardSq.xBash, y: forwardSq.yBash}, costs.forwardBash, path + ', Bash forward', dirs.forward);
+
+    return squares;
 };
 
 /**

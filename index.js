@@ -22,8 +22,8 @@ function main() {
 
     //Find start - add to frontiers
     var start = board.getStart();
-    var firstNode = new Square(start, 1, 'Start, ', 'N');
-    var test2 = new Square(start, 5, 'Start, ', 'N');
+    var firstNode = new Square(start, 1, 'Start', 'N');
+    var test2 = new Square(start, 5, 'Start', 'N');
     frontiers.queue(test2);
     frontiers.queue(firstNode);
 
