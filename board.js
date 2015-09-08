@@ -25,7 +25,8 @@ Board.prototype.loadGrid = function(file, callback) {
 
     // While parsing, append data
     parser.on('readable', function() {
-        while (record = parser.read()) {
+        var record;
+        while ((record = parser.read())) {
             data.push(record);
         }
     });
@@ -87,7 +88,7 @@ Board.prototype.at = function(x, y) {
 
 /**
  * gets the starting position on the board
- * @returns {x, y} the x,y coordinates of the start
+ * @returns {{}|*} the x,y coordinates of the start
  */
 Board.prototype.getStart = function () {
     return this.start;
@@ -107,7 +108,7 @@ Board.prototype.isGoal = function (loc) {
  * @param x the x coordinate
  * @param y the y coordinate
  * @param sq coordinates after attempted move/bash
- * @returns 0 if off map, 1 if bash off map, 2 if all valid
+ * @returns number if off map, 1 if bash off map, 2 if all valid
  */
 Board.prototype.checkMove = function(x, y, sq) {
     if (0 > sq.y || sq.y >= this.grid.length) return 0;
@@ -123,7 +124,7 @@ Board.prototype.checkMove = function(x, y, sq) {
  * @param y the y coordinate
  * @param path Current path as a string
  * @param facing NSEW representing current direction
- * @returns An object containing squares for each possible movement from this square
+ * @returns {} object containing squares for each possible movement from this square
  */
 Board.prototype.getNeighbors = function(x, y, path, facing) {
     var turnCost = Math.ceil(this.at(x, y) / 3);
@@ -181,13 +182,13 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
         forwardSq.yBash = y;
 
         // Calculate new Y values
-        leftSq.y = y + (facing == 'E' ? -1 : 1);
-        leftSq.yBash = y + 2 * (facing == 'E' ? -1 : 1);
-        rightSq.y = y - (facing == 'E' ? -1 : 1);
-        rightSq.yBash = y - 2 * (facing == 'E' ? -1 : 1);
+        leftSq.y = y + (facing === 'E' ? -1 : 1);
+        leftSq.yBash = y + 2 * (facing === 'E' ? -1 : 1);
+        rightSq.y = y - (facing === 'E' ? -1 : 1);
+        rightSq.yBash = y - 2 * (facing === 'E' ? -1 : 1);
         // Calculate new X values
-        forwardSq.x = x + (facing == 'W' ? -1 : 1);
-        forwardSq.xBash = x + 2 * (facing == 'W' ? -1 : 1);
+        forwardSq.x = x + (facing === 'W' ? -1 : 1);
+        forwardSq.xBash = x + 2 * (facing === 'W' ? -1 : 1);
     }
 
     // Check validity of forward motion
@@ -199,7 +200,7 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     } else {
         costs.forward = this.at(forwardSq.x, forwardSq.y);
         // If can move but not bash
-        if (forwardValid == 1) {
+        if (forwardValid === 1) {
             costs.forwardBash = -1;
         } else {
             costs.forwardBash = bashCost + this.at(forwardSq.xBash, forwardSq.yBash);
@@ -213,7 +214,7 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
         costs.leftBash = -1;
     } else {
         costs.left = Math.ceil(turnCost + this.at(leftSq.x, leftSq.y));
-        if (leftValid == 1) {
+        if (leftValid === 1) {
             costs.leftBash = -1;
         } else {
             costs.leftBash = Math.ceil(turnCost + bashCost + this.at(leftSq.xBash, leftSq.yBash));
@@ -257,11 +258,11 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
  * @returns {string} The board serialized
  */
 Board.prototype.toString = function() {
-    s = '';
+    var s = '';
     // Iterate through grid
     for (var y = 0; y < 4; y++) {
         for (var x = 0; x < 4; x++) {
-            s += board.at(x, y) + ' ';
+            s += this.at(x, y) + ' ';
         }   
         s += '\n';
     }
