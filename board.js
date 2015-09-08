@@ -33,12 +33,12 @@ Board.prototype.loadGrid = function(file, callback) {
 
     // Log errors
     parser.on('error', function(err) {
-        console.log(err.message);
+        console.error(err.message);
     });
 
     // On finish, parse each line
     parser.on('finish', function() {
-        console.log('Loading grid');
+        //console.log('Loading grid');
         for (var i = 0; i < data.length; i++) {
             // Add empty array
             _this.grid.push([]);
@@ -57,7 +57,7 @@ Board.prototype.loadGrid = function(file, callback) {
 
             }
         }
-        console.log('Done');
+        //console.log('Done');
 
         // Kick off the rest of the program
         callback();
@@ -66,10 +66,10 @@ Board.prototype.loadGrid = function(file, callback) {
     // Read specified grid file
     fs.readFile(file, 'utf8', function(err, data) {
         if (err) {
-            return console.log(err);
+            return console.error(err);
         }
 
-        console.log('Parsing file');
+        //console.log('Parsing file');
         // Add file data to parser, then end
         parser.write(data);
         parser.end();
@@ -146,7 +146,7 @@ Board.prototype.changeDirection = function(dir) {
     }
 
     return dirs;
-}
+};
 
 /**
  * Returns the costs for neighbors of a given coordinate
@@ -154,7 +154,7 @@ Board.prototype.changeDirection = function(dir) {
  * @param y the y coordinate
  * @param path Current path as a string
  * @param facing NSEW representing current direction
- * @returns {} object containing squares for each possible movement from this square
+ * @returns {*} object containing squares for each possible movement from this square
  */
 Board.prototype.getNeighbors = function(x, y, path, facing) {
     var turnCost = Math.ceil(this.at(x, y) / 3);
@@ -249,19 +249,23 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     }
 
     // Create object containing new squares
-    var squares = {};
+    var squares = [];
     if (costs.left > 0)
-        squares.left = new Square({x: leftSq.x, y: leftSq.y}, costs.left, path + ', Move left', dirs.left);
+        squares.push(new Square({x: leftSq.x, y: leftSq.y}, costs.left, path + ', Turn left, Forward', dirs.left));
     if (costs.leftBash > 0)
-        squares.leftBash = new Square({x: leftSq.xBash, y: leftSq.yBash}, costs.leftBash, path + ', Bash left', dirs.left);
+        squares.push(new Square({x: leftSq.xBash, y: leftSq.yBash}, costs.leftBash, path +
+            ', Turn left, Bash, Forward', dirs.left));
     if (costs.right > 0)
-        squares.right = new Square({x: rightSq.x, y: rightSq.y}, costs.right, path + ', Move right', dirs.right);
+        squares.push(new Square({x: rightSq.x, y: rightSq.y}, costs.right, path +
+            ', Turn right, Forward', dirs.right));
     if (costs.rightBash > 0)
-        squares.rightBash = new Square({x: rightSq.xBash, y: rightSq.yBash}, costs.rightBash, path + ', Bash right', dirs.right);
+        squares.push(new Square({x: rightSq.xBash, y: rightSq.yBash}, costs.rightBash, path +
+            ', Turn Right, Bash, Forward ', dirs.right));
     if (costs.forward > 0)
-        squares.forward = new Square({x: forwardSq.x, y: forwardSq.y}, costs.forward, path + ', Move forward', dirs.forward);
+        squares.push(new Square({x: forwardSq.x, y: forwardSq.y}, costs.forward, path + ', Forward', dirs.forward));
     if (costs.forwardBash > 0)
-        squares.forwardBash = new Square({x: forwardSq.xBash, y: forwardSq.yBash}, costs.forwardBash, path + ', Bash forward', dirs.forward);
+        squares.push(new Square({x: forwardSq.xBash, y: forwardSq.yBash}, costs.forwardBash, path +
+            ', Bash, Forward', dirs.forward));
 
     return squares;
 };

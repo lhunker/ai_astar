@@ -17,24 +17,30 @@ board.loadGrid('grid', main);
 function main() {
     var s = board.toString();
     console.log(s);
-    console.log(board.getStart());
-    console.info(board.isGoal({x: 1, y: 0}));
 
     //Find start - add to frontiers
     var start = board.getStart();
     var firstNode = new Square(start, 1, 'Start', 'N');
     frontiers.queue(firstNode);
 
+    //TODO add global nodes expanded counter
+
     //sort in reverse order for pop
-    while (!board.isGoal(frontiers.peek().getLocation()) && frontiers.length !== 0) {
+    while (!board.isGoal(frontiers.peek().getLocation())) {
+        if (frontiers.length === 0) {
+            console.error('No Solution!');
+            exit(1);
+        }
         var current = frontiers.dequeue();
         var newNodes = current.expand(board);
         pushToQueue(newNodes);
     }
 
     var result = frontiers.dequeue();
-    console.info(result);
-    //take top node and print solution
+    console.info('Result: ' + JSON.stringify(result));
+    //Print solution
+
+    //TODO add print formatting
 }
 
 /**
@@ -42,9 +48,7 @@ function main() {
  * @param arr the array to push
  */
 function pushToQueue(arr) {
-    //TODO either use _ or change format
-    console.info(arr);
-    //arr.forEach(function (item) {
-    //    frontiers.queue(item);
-    //});
+    arr.forEach(function (item) {
+        frontiers.queue(item);
+    });
 }

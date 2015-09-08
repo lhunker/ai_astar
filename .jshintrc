@@ -156,6 +156,7 @@
 
   // Custom Globals
   "globals": {
+    "exit": true
   }
   // additional predefined global variables
 }
