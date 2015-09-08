@@ -5,6 +5,8 @@ fs = require('fs');
 
 function Board() {
     this.grid = [];
+    this.start = {};
+    this.goal = {};
 }
 
 /**
@@ -41,6 +43,11 @@ Board.prototype.loadGrid = function(file, callback) {
             // For each entry in line
             for (var j = 0; j < data[i].length; j++) {
                 // Set value in grid
+                if (data[i][j] === 'G') {
+                    _this.goal = {x: j, y: i};
+                } else if (data[i][j] === 'S') {
+                    _this.start = {x: j, y: i};
+                }
                 _this.grid[_this.grid.length - 1].push(parseInt(data[i][j]));
             }
         }
@@ -71,6 +78,23 @@ Board.prototype.loadGrid = function(file, callback) {
  */
 Board.prototype.at = function(x, y) {
     return this.grid[y][x];
+};
+
+/**
+ * gets the starting position on the board
+ * @returns {x, y} the x,y coordinates of the start
+ */
+Board.prototype.getStart = function () {
+    return this.start;
+};
+
+/**
+ * Checks whether a given square is the goal
+ * @param loc the location to check
+ * @returns true if the location is the goal, false otherwise
+ */
+Board.prototype.isGoal = function (loc) {
+    return (loc.x === this.goal.x && loc.y === this.goal.y);
 };
 
 /**

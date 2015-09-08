@@ -18,6 +18,7 @@
   "dependencies": {
     "csv": "~0.4.6",
     "csv-parse": "~1.0.0",
-    "fs": "0.0.2"
+    "fs": "0.0.2",
+    "js-priority-queue": "^0.1.2"
   }
 }

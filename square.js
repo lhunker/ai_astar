@@ -20,9 +20,30 @@ function Square(location, cost, path, direction) {
 
 }
 
-Square.prototype.expand = function () {
+/**
+ * @param board the board to find neighbors on
+ * @returns [square] and array of squares for the expanded nodes
+ */
+Square.prototype.expand = function (board) {
+    var neighbors = board.getNeighborCosts(this.location.x, this.location.y, this.direction);
 
+    console.info(neighbors);
+};
 
+/**
+ * Returns the square's location
+ * @returns {x, y} the x, y coordinates of the node
+ */
+Square.prototype.getLocation = function () {
+    return this.location;
+};
+
+/**
+ * Gets the cost of the node
+ * @returns The cost of the node as a number
+ */
+Square.prototype.getCost = function () {
+    return this.cost;
 };
 
 module.exports = Square;
