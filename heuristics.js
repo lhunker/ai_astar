@@ -13,7 +13,7 @@ function h1() {
 
 // Heuristic 2, Dan
 
-// Heuristic 3, Brett
+
 /**
  * Heuristic 3 returns the maximum of the horizontal and vertical distance
  * @param square Object containing coordinates of current square
@@ -21,8 +21,8 @@ function h1() {
  * @returns Maximum of vertical/horizontal distance to goal
  */
 function maxDistance(square, goal) {
-    horizDiff = Math.abs(goal.x - square.x);
-    vertDiff = Math.abs(goal.y - square.y);
+    var horizDiff = Math.abs(goal.x - square.x);
+    var vertDiff = Math.abs(goal.y - square.y);
     return Math.max(horizDiff, vertDiff);
 }
 
@@ -32,4 +32,5 @@ function maxDistance(square, goal) {
 
 // Heuristic 6, Brett
 
-module.exports = [h1];
+//TODO Replace h1 with your function when added
+module.exports = [h1, h1, maxDistance, h1, h1, h1];

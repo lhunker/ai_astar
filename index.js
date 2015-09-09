@@ -9,6 +9,11 @@ var frontiers = new Queue({
     }
 });
 
+//TODO add error checking for command line arguments
+
+var hNum = parseInt(process.argv[3]) - 1;
+
+
 var board = new Board();
 board.loadGrid('grid', main);
 
@@ -33,8 +38,7 @@ function main() {
             exit(1);
         }
         var current = frontiers.dequeue();
-        //TODO change to pick h dynamically
-        var newNodes = current.expand(board, heuristic[0]);
+        var newNodes = current.expand(board, heuristic[hNum]);
         pushToQueue(newNodes);
     }
 
