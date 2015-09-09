@@ -26,11 +26,22 @@ function maxDistance(square, goal) {
     return Math.max(horizDiff, vertDiff);
 }
 
-// Heuristic 4, Lukas
+/**
+ * Returns the sum of ther vertical and horizontal differences
+ * @param location the current location to check from
+ * @param goal the location of the goal
+ * @returns {number} the heuristic cost
+ */
+function h4(location, goal) {
+
+    var horizDiff = Math.abs(goal.x - location.x);
+    var vertDiff = Math.abs(goal.y - location.y);
+    return horizDiff + vertDiff;
+}
 
 // Heuristic 5, Dan
 
 // Heuristic 6, Brett
 
 //TODO Replace h1 with your function when added
-module.exports = [h1, h1, maxDistance, h1, h1, h1];
+module.exports = [h1, h1, maxDistance, h4, h1, h1];

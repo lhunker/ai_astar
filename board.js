@@ -104,6 +104,14 @@ Board.prototype.isGoal = function (loc) {
 };
 
 /**
+ * Getter for goal
+ * @returns {*} the gol location
+ */
+Board.prototype.getGoal = function () {
+    return this.goal;
+};
+
+/**
  * Returns whether a square is inside the grid
  * @param loc Object with x and y coordinates
  * @Returns boolean true if on map

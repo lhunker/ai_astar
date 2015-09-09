@@ -17,12 +17,13 @@ function Square(location, cost, path, direction) {
     this.cost = cost;
     this.path = path;
     this.direction = direction;
+    this.totcost = 0;
 
 }
 
 /**
  * @param board the board to find neighbors on
- * @param heuristic a function that takes a location and returns the heuristic cost
+ * @param heuristic a function that takes a location, and goal and returns the heuristic cost
  * @returns [square] and array of squares for the expanded nodes
  */
 Square.prototype.expand = function (board, heuristic) {
@@ -31,8 +32,9 @@ Square.prototype.expand = function (board, heuristic) {
 
     //Calculate cost
     neighbors.forEach(function (n) {
-        var hcost = heuristic(n.location);
-        n.cost = n.cost + _this.cost + hcost;
+        var h = heuristic(n.location, board.getGoal());
+        n.cost = n.cost + _this.cost;
+        n.totcost = h + n.cost;
     });
 
     return neighbors;
@@ -51,7 +53,7 @@ Square.prototype.getLocation = function () {
  * @returns The cost of the node as a number
  */
 Square.prototype.getCost = function () {
-    return this.cost;
+    return this.totcost;
 };
 
 module.exports = Square;
