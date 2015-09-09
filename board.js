@@ -104,6 +104,17 @@ Board.prototype.isGoal = function (loc) {
 };
 
 /**
+ * Returns whether a square is inside the grid
+ * @param loc Object with x and y coordinates
+ * @Returns boolean true if on map
+ */
+Board.prototype.isOnBoard = function(loc) {
+    if (0 > loc.y || loc.y >= this.grid.length) return false;
+    if (0 > loc.x || loc.x >= this.grid[loc.y].length) return false;
+    return true;
+}
+
+/**
  * Returns whether a move is valid
  * @param x the x coordinate
  * @param y the y coordinate
@@ -111,10 +122,8 @@ Board.prototype.isGoal = function (loc) {
  * @returns number if off map, 1 if bash off map, 2 if all valid
  */
 Board.prototype.checkMove = function(x, y, sq) {
-    if (0 > sq.y || sq.y >= this.grid.length) return 0;
-    if (0 > sq.x || sq.x >= this.grid[sq.y].length) return 0;
-    if (0 > sq.yBash || sq.yBash >= this.grid.length) return 1;
-    if (0 > sq.xBash || sq.xBash >= this.grid[sq.yBash].length) return 1;
+    if (!this.isOnBoard(sq)) return 0;
+    if (!this.isOnBoard({'x': sq.xBash, 'y': sq.yBash})) return 1;
     return 2;
 };
 
