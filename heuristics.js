@@ -1,4 +1,15 @@
-// Heuristic 1, Lukas already wrote it by writing the A* framework
+/*
+ heuristics.js
+ contains the heuristic functions that can be selected
+ */
+
+/**
+ * Heuristic 1 - simply returns 0
+ * @returns {number}
+ */
+function h1() {
+    return 0;
+}
 
 // Heuristic 2, Dan
 
@@ -9,3 +20,5 @@
 // Heuristic 5, Dan
 
 // Heuristic 6, Brett
+
+module.exports = [h1];

@@ -1,5 +1,6 @@
 var Board = require('./board');
 var Square = require('./square');
+var heuristic = require('./heuristics');
 var Queue = require('js-priority-queue');
 
 var frontiers = new Queue({
@@ -32,7 +33,8 @@ function main() {
             exit(1);
         }
         var current = frontiers.dequeue();
-        var newNodes = current.expand(board);
+        //TODO change to pick h dynamically
+        var newNodes = current.expand(board, heuristic[0]);
         pushToQueue(newNodes);
     }
 
@@ -52,3 +54,4 @@ function pushToQueue(arr) {
         frontiers.queue(item);
     });
 }
+

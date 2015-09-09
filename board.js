@@ -110,9 +110,9 @@ Board.prototype.isGoal = function (loc) {
  */
 Board.prototype.isOnBoard = function(loc) {
     if (0 > loc.y || loc.y >= this.grid.length) return false;
-    if (0 > loc.x || loc.x >= this.grid[loc.y].length) return false;
-    return true;
-}
+    return !(0 > loc.x || loc.x >= this.grid[loc.y].length);
+
+};
 
 /**
  * Returns whether a move is valid

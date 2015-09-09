@@ -9,7 +9,7 @@ function generateBoard(){
     var j;
 
     // variable to hold the string that is the board
-    var boardString = "";
+    var boardString = '';
 
     // variable to hold a given specific entry in the board
     var entry;
@@ -31,20 +31,20 @@ function generateBoard(){
         for (j = 0; j < width; j++) {
 
             // if we're on the top row
-            if (i == 0) {
+            if (i === 0) {
                 // and we don't have a goal yet
                 if (!hasGoal) {
                     // and we're on the space where goal has been designated to go
-                    if (j == goalLocation) {
+                    if (j === goalLocation) {
                         // if this is the first entry in the row
-                        if (j == 0) {
-                            // just add "G" for the goal space
-                            boardString.concat("G");
+                        if (j === 0) {
+                            // just add 'G' for the goal space
+                            boardString.concat('G');
                         }
                         // for any other place in the row
                         else {
-                            // add a tab character to separate entries, then "G" for goal
-                            boardString.concat("\t" + "G");
+                            // add a tab character to separate entries, then 'G' for goal
+                            boardString.concat('\t' + 'G');
                         }
 
                         // set hasGoal to true and move on to the next entry
@@ -55,20 +55,20 @@ function generateBoard(){
             }
 
             // if we're on the bottom row
-            if(i == height - 1){
+            if (i === height - 1) {
                 // and we don't have a start yet
                 if(!hasStart){
                     // and we're on the space where start has been designated to go
-                    if(j == startLocation){
+                    if (j === startLocation) {
                         // if this is the first entry in the row
-                        if(j == 0){
-                            // just add "S" for the start space
-                            boardString.concat("S");
+                        if (j === 0) {
+                            // just add 'S' for the start space
+                            boardString.concat('S');
                         }
                         // for any other place in the row
                         else {
-                            // add a tab character to separate entries, then "S" for start
-                            boardString.concat("\t" + "S");
+                            // add a tab character to separate entries, then 'S' for start
+                            boardString.concat('\t' + 'S');
                         }
 
                         // set hasStart to true and move on to the next entry
@@ -88,21 +88,21 @@ function generateBoard(){
                 entry = ((Math.random()) % 9) + 1;
 
                 // if this is the first entry in the row
-                if (j == 0) {
+                if (j === 0) {
                     // just add the entry value
                     boardString.concat(entry);
                 }
                 // for any other place in the row
                 else {
                     // add a tab character to separate entries, then the entry value
-                    boardString.concat("\t" + entry);
+                    boardString.concat('\t' + entry);
                 }
             }
         }
         // for every row except the last one
         if(i < height - 1){
             // add a newline character at the end to start a new row
-            boardString.concat("\n");
+            boardString.concat('\n');
         }
     }
 
@@ -111,10 +111,13 @@ function generateBoard(){
 
 function makeBoardFile(){
     var fs = require('fs');
-    fs.writeFile("", generateBoard(), function(err){
+    fs.writeFile('', generateBoard(), function (err) {
         if(err){
             return console.log(err);
         }
-        console.log("The file was saved!");
+        console.log('The file was saved!');
     });
 }
+
+//Acual script
+makeBoardFile();

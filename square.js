@@ -22,13 +22,17 @@ function Square(location, cost, path, direction) {
 
 /**
  * @param board the board to find neighbors on
+ * @param heuristic a function that takes a location and returns the heuristic cost
  * @returns [square] and array of squares for the expanded nodes
  */
-Square.prototype.expand = function (board) {
+Square.prototype.expand = function (board, heuristic) {
     var _this = this;
     var neighbors = board.getNeighbors(this.location.x, this.location.y, this.path, this.direction);
+
+    //Calculate cost
     neighbors.forEach(function (n) {
-        n.cost = n.cost + _this.cost;
+        var hcost = heuristic(n.location);
+        n.cost = n.cost + _this.cost + hcost;
     });
 
     return neighbors;
