@@ -9,9 +9,18 @@ var frontiers = new Queue({
     }
 });
 
-//TODO add error checking for command line arguments
+//TODO add command line arg for board
+if (!process.argv[2] || !process.argv[3]) {
+    console.error('Usage node index.js \<filename\> \<heuristic\>');
+    process.exit(1);
+}
+
 
 var hNum = parseInt(process.argv[3]) - 1;
+if (hNum < 0 || hNum > 5) {
+    console.error('Must select valid heuristic');
+    process.exit(1);
+}
 
 
 var board = new Board();
@@ -35,7 +44,7 @@ function main() {
     while (!board.isGoal(frontiers.peek().getLocation())) {
         if (frontiers.length === 0) {
             console.error('No Solution!');
-            exit(1);
+            process.exit(1);
         }
         var current = frontiers.dequeue();
         var newNodes = current.expand(board, heuristic[hNum]);
