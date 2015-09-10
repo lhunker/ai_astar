@@ -269,13 +269,13 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
         if (this.isOnBoard({x: x, y: y + 1})) {
             costs.back = turnCost * 2 + this.at(x, y + 1);
         } else {
-            costs.back = turnCost * 2 + 100;
+            costs.back = turnCost * 2 + 200;
         }
 
         if (this.isOnBoard({x: x, y: y + 2})) {
             costs.backBash = turnCost * 2 + bashCost + this.at(x, y + 2);
         } else {
-            costs.backBash = turnCost * 2 + bashCost + 100;
+            costs.backBash = turnCost * 2 + bashCost + 200;
         }
     }
 
