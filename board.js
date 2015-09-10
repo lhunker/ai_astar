@@ -268,21 +268,21 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     // Create object containing new squares
     var squares = [];
     if (costs.left > 0)
-        squares.push(new Square({x: leftSq.x, y: leftSq.y}, costs.left, path + ', Turn left, Forward', dirs.left));
+        squares.push(new Square({x: leftSq.x, y: leftSq.y}, costs.left, path + ', Turn left, Forward', dirs.left, 2));
     if (costs.leftBash > 0)
         squares.push(new Square({x: leftSq.xBash, y: leftSq.yBash}, costs.leftBash, path +
-            ', Turn left, Bash, Forward', dirs.left));
+            ', Turn left, Bash, Forward', dirs.left, 3));
     if (costs.right > 0)
         squares.push(new Square({x: rightSq.x, y: rightSq.y}, costs.right, path +
-            ', Turn right, Forward', dirs.right));
+            ', Turn right, Forward', dirs.right, 2));
     if (costs.rightBash > 0)
         squares.push(new Square({x: rightSq.xBash, y: rightSq.yBash}, costs.rightBash, path +
-            ', Turn Right, Bash, Forward ', dirs.right));
+            ', Turn Right, Bash, Forward ', dirs.right, 3));
     if (costs.forward > 0)
-        squares.push(new Square({x: forwardSq.x, y: forwardSq.y}, costs.forward, path + ', Forward', dirs.forward));
+        squares.push(new Square({x: forwardSq.x, y: forwardSq.y}, costs.forward, path + ', Forward', dirs.forward, 1));
     if (costs.forwardBash > 0)
         squares.push(new Square({x: forwardSq.xBash, y: forwardSq.yBash}, costs.forwardBash, path +
-            ', Bash, Forward', dirs.forward));
+            ', Bash, Forward', dirs.forward, 2));
 
     return squares;
 };

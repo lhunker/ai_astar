@@ -15,13 +15,12 @@ if (!process.argv[2] || !process.argv[3]) {
     process.exit(1);
 }
 
-
 var hNum = parseInt(process.argv[3]) - 1;
 if (hNum < 0 || hNum > 5) {
     console.error('Must select valid heuristic');
     process.exit(1);
 }
-
+var expanded = 0;
 
 var board = new Board();
 board.loadGrid('grid', main);
@@ -35,7 +34,7 @@ function main() {
 
     //Find start - add to frontiers
     var start = board.getStart();
-    var firstNode = new Square(start, 1, 'Start', 'N');
+    var firstNode = new Square(start, 1, 'Start', 'N', 0);
     frontiers.queue(firstNode);
 
     //TODO add global nodes expanded counter
@@ -48,14 +47,17 @@ function main() {
         }
         var current = frontiers.dequeue();
         var newNodes = current.expand(board, heuristic[hNum]);
+        expanded++;
         pushToQueue(newNodes);
     }
 
     var result = frontiers.dequeue();
-    console.info('Result: ' + JSON.stringify(result));
-    //Print solution
 
-    //TODO add print formatting
+    //Print solution
+    console.info('Path Score: ' + (100 - result.getActualCost()));
+    console.info('Actions taken: ' + result.getActions());
+    console.info('Nodes Expanded: ' + expanded);
+    console.info('Path: ' + result.getPath());
 }
 
 /**
