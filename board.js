@@ -262,6 +262,14 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
         }
     }
 
+    costs.back = -1;
+    costs.backBash = -1;
+    // If starting at top of board facing north
+    if (this.start.x == x && this.start.y == y && facing == 'N' && y == 0) {
+        costs.back = turnCost * 2 + this.at(x, y + 1);
+        costs.backBash = turnCost * 2 + bashCost + this.at(x, y + 2);
+    }
+
     // Create object containing new squares
     var squares = [];
     if (costs.left > 0)
@@ -280,6 +288,10 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     if (costs.forwardBash > 0)
         squares.push(new Square({x: forwardSq.xBash, y: forwardSq.yBash}, costs.forwardBash, path +
             ', Bash, Forward', dirs.forward, 2));
+    if (costs.back > 0) {
+        squares.push(new Square({x: x, y: y + 1}, costs.back, path + ', Turn right, Turn right, Forward', 'S', 3));
+        squares.push(new Square({x: x, y: y + 2}, costs.backBash, path + ', Turn right, Turn right, Bash, Forward', 'S', 4));
+    }
 
     return squares;
 };
