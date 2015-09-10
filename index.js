@@ -23,7 +23,9 @@ if (hNum < 0 || hNum > 5) {
 var expanded = 0;
 
 var board = new Board();
-board.loadGrid('grid', main);
+var filename = process.argv[2];
+console.log("Loading grid " + filename);
+board.loadGrid(filename, main);
 
 /**
  * The main function for after the board is loaded
