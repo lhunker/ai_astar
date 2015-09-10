@@ -37,8 +37,6 @@ function main() {
     var firstNode = new Square(start, 1, 'Start', 'N', 0);
     frontiers.queue(firstNode);
 
-    //TODO add global nodes expanded counter
-
     //sort in reverse order for pop
     while (!board.isGoal(frontiers.peek().getLocation())) {
         if (frontiers.length === 0) {

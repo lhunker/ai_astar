@@ -38,7 +38,6 @@ Board.prototype.loadGrid = function(file, callback) {
 
     // On finish, parse each line
     parser.on('finish', function() {
-        //console.log('Loading grid');
         for (var i = 0; i < data.length; i++) {
             // Add empty array
             _this.grid.push([]);
@@ -57,7 +56,6 @@ Board.prototype.loadGrid = function(file, callback) {
 
             }
         }
-        //console.log('Done');
 
         // Kick off the rest of the program
         callback();
@@ -69,7 +67,6 @@ Board.prototype.loadGrid = function(file, callback) {
             return console.error(err);
         }
 
-        //console.log('Parsing file');
         // Add file data to parser, then end
         parser.write(data);
         parser.end();

@@ -119,5 +119,5 @@ function makeBoardFile(){
     });
 }
 
-//Acual script
+//Actual script
 makeBoardFile();
