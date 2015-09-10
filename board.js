@@ -265,7 +265,7 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     costs.back = -1;
     costs.backBash = -1;
     // If starting at top of board facing north
-    if (this.start.x == x && this.start.y == y && facing == 'N' && y == 0) {
+    if (this.start.x === x && this.start.y === y && facing === 'N' && y === 0) {
         costs.back = turnCost * 2 + this.at(x, y + 1);
         costs.backBash = turnCost * 2 + bashCost + this.at(x, y + 2);
     }
