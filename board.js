@@ -97,7 +97,7 @@ Board.prototype.getStart = function () {
  * @returns true if the location is the goal, false otherwise
  */
 Board.prototype.isGoal = function (loc) {
-    return (loc.x === this.goal.x && loc.y === this.goal.y);
+    return (loc.x === this.goal.x && loc.y === this.goal.y) || !this.isOnBoard(loc);
 };
 
 /**
@@ -222,13 +222,13 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     var forwardValid = this.checkMove(x, y, forwardSq);
     // If forward is not valid
     if (forwardValid === 0) {
-        costs.forward = -1;
-        costs.forwardBash = -1;
+        costs.forward = 200;
+        costs.forwardBash = 200;
     } else {
         costs.forward = this.at(forwardSq.x, forwardSq.y);
         // If can move but not bash
         if (forwardValid === 1) {
-            costs.forwardBash = -1;
+            costs.forwardBash = 200;
         } else {
             costs.forwardBash = bashCost + this.at(forwardSq.xBash, forwardSq.yBash);
         }
@@ -237,12 +237,12 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     // Check validity of left motion
     var leftValid = this.checkMove(x, y, leftSq);
     if (leftValid === 0) {
-        costs.left = -1;
-        costs.leftBash = -1;
+        costs.left = 200;
+        costs.leftBash = 200;
     } else {
         costs.left = Math.ceil(turnCost + this.at(leftSq.x, leftSq.y));
         if (leftValid === 1) {
-            costs.leftBash = -1;
+            costs.leftBash = 200;
         } else {
             costs.leftBash = Math.ceil(turnCost + bashCost + this.at(leftSq.xBash, leftSq.yBash));
         }
@@ -251,12 +251,12 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     // Check validity of right turn
     var rightValid = this.checkMove(x, y, rightSq);
     if (rightValid === 0) {
-        costs.right = -1;
-        costs.rightBash = -1;
+        costs.right = 200;
+        costs.rightBash = 200;
     } else {
         costs.right = Math.ceil(turnCost + this.at(rightSq.x, rightSq.y));
         if (rightValid === 1) {
-            costs.rightBash = -1;
+            costs.rightBash = 200;
         } else {
             costs.rightBash = Math.ceil(turnCost + bashCost + this.at(rightSq.xBash, rightSq.yBash));
         }

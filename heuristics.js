@@ -27,7 +27,7 @@ function maxDistance(square, goal) {
 }
 
 /**
- * Returns the sum of ther vertical and horizontal differences
+ * Returns the sum of the vertical and horizontal differences
  * @param location the current location to check from
  * @param goal the location of the goal
  * @returns {number} the heuristic cost
