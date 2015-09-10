@@ -223,12 +223,12 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     // If forward is not valid
     if (forwardValid === 0) {
         costs.forward = 200;
-        costs.forwardBash = 200;
+        costs.forwardBash = -1;
     } else {
         costs.forward = this.at(forwardSq.x, forwardSq.y);
         // If can move but not bash
         if (forwardValid === 1) {
-            costs.forwardBash = 200;
+            costs.forwardBash = 203;
         } else {
             costs.forwardBash = bashCost + this.at(forwardSq.xBash, forwardSq.yBash);
         }
@@ -238,11 +238,11 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     var leftValid = this.checkMove(x, y, leftSq);
     if (leftValid === 0) {
         costs.left = 200;
-        costs.leftBash = 200;
+        costs.leftBash = -1;
     } else {
         costs.left = Math.ceil(turnCost + this.at(leftSq.x, leftSq.y));
         if (leftValid === 1) {
-            costs.leftBash = 200;
+            costs.leftBash = 203;
         } else {
             costs.leftBash = Math.ceil(turnCost + bashCost + this.at(leftSq.xBash, leftSq.yBash));
         }
@@ -252,11 +252,11 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
     var rightValid = this.checkMove(x, y, rightSq);
     if (rightValid === 0) {
         costs.right = 200;
-        costs.rightBash = 200;
+        costs.rightBash = -1;
     } else {
         costs.right = Math.ceil(turnCost + this.at(rightSq.x, rightSq.y));
         if (rightValid === 1) {
-            costs.rightBash = 200;
+            costs.rightBash = 203;
         } else {
             costs.rightBash = Math.ceil(turnCost + bashCost + this.at(rightSq.xBash, rightSq.yBash));
         }
