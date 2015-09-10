@@ -64,7 +64,8 @@ Board.prototype.loadGrid = function(file, callback) {
     // Read specified grid file
     fs.readFile(file, 'utf8', function(err, data) {
         if (err) {
-            return console.error(err);
+            console.error('Error opening board - ' + err);
+            process.exit(2);
         }
 
         // Add file data to parser, then end
