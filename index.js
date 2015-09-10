@@ -24,7 +24,6 @@ var expanded = 0;
 
 var board = new Board();
 var filename = process.argv[2];
-console.log("Loading grid ".concat(filename));
 board.loadGrid(filename, main);
 
 /**
