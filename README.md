@@ -6,6 +6,10 @@ An implementation of A star search for an AI class
 Written using Node.js v0.12
 Node.js can be downloaded from https://nodejs.org/en/ or through your package manager.
 
+##To Install Dependencies
+`npm install`
+We use a csv library, a priority queue library, and the file system library
+
 ##To run
 `node index.js <boardfile> <hueristic number>`
 (Note on some operating systems node is in the nodejs package due to a naming conflict)
