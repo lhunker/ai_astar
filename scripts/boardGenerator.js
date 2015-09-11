@@ -1,10 +1,6 @@
 var fs = require('fs');
 
-function generateBoard(){
-
-    // variables for width and height of the board
-    var width = 4;
-    var height = 4;
+function generateBoard(width, height) {
 
     // variables for iterating through rows and columns
     var i;
@@ -115,9 +111,9 @@ function randomNumber(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function makeBoardFile(){
-    var boardString = generateBoard();
-    fs.writeFile('grid.txt', boardString, function (err) {
+function makeBoardFile(width, height, file) {
+    var boardString = generateBoard(width, height);
+    fs.writeFile(file, boardString, function (err) {
         if(err){
             return console.log(err);
         }
@@ -126,4 +122,8 @@ function makeBoardFile(){
 }
 
 //Actual script
-makeBoardFile();
+if (!process.argv[2] || !process.argv[3] || !process.argv[4]) {
+    console.error('Enter dimensions you idiot');
+    process.exit(1);
+}
+makeBoardFile(process.argv[2], process.argv[3], process.argv[4]);
