@@ -53,6 +53,7 @@ function main() {
     }
 
     var result = frontiers.dequeue();
+    if (result.getActions() > actions) actions = result.getActions();
 
     //Print solution
     console.info('Path Score: ' + (100 - result.getActualCost()));
