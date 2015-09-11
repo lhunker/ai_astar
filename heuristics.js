@@ -56,12 +56,40 @@ function h4(location, goal) {
  * @param square Object containing the coordinates of the current square
  * @param goal Object containing the coordinates of the goal
  * @returns number The estimated cost of the path according to the heuristic
+ * @param direction the direction the robot is facing
  */
-function h5(square, goal) {
+function h5(square, goal, direction) {
 
-    var horizDiff = Math.abs(goal.x - square.x);
-    var vertDiff = Math.abs(goal.y - square.y);
-    return horizDiff + vertDiff + 1;
+    var horizDiff = goal.x - square.x;
+    var vertDiff = goal.y - square.y;
+
+    //Calculate turns
+    var turns = 0;
+    if (vertDiff < 0 && direction !== 'N') {
+        turns++;
+        if (horizDiff === 0 && direction === 'S') {
+            turns++;
+        }
+    } else if (vertDiff > 0 && direction !== 'S') {
+        turns++;
+        if (horizDiff === 0 && direction === 'N') {
+            turns++;
+        }
+    }
+
+    if (horizDiff > 0 && direction !== 'E') {
+        turns++;
+        if (vertDiff === 0 && direction === 'W') {
+            turns++;
+        }
+    } else if (horizDiff < 0 && direction !== 'W') {
+        turns++;
+        if (vertDiff === 0 && direction === 'E') {
+            turns++;
+        }
+    }
+
+    return Math.abs(horizDiff) + Math.abs(vertDiff) + turns;
 }
 
 /**

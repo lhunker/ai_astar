@@ -46,19 +46,16 @@ function main() {
             process.exit(1);
         }
         var current = frontiers.dequeue();
-        if (current.getActions() > actions) actions = current.getActions();
         var newNodes = current.expand(board, heuristic[hNum]);
         expanded++;
         pushToQueue(newNodes);
     }
 
     var result = frontiers.dequeue();
-    if (result.getActions() > actions) actions = result.getActions();
 
     //Print solution
     console.info('Path Score: ' + (100 - result.getActualCost()));
     console.info('Actions taken: ' + result.getActions());
-    console.info('Deepest action found: ' + actions);
     console.info('Nodes Expanded: ' + expanded);
     console.info('Path: ' + result.getPath());
 }
