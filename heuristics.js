@@ -64,7 +64,14 @@ function h5(square, goal) {
     return horizDiff + vertDiff + 3;
 }
 
-// Heuristic 6, Brett
+/**
+ * Heuristic 6 - h5 multiplied by 3
+ * @param square the square
+ * @param goal the goal
+ * @returns {number}
+ */
+function h6(square, goal) {
+    return 3 * h5(square, goal);
+}
 
-//TODO Replace h1 with your function when added
-module.exports = [h1, minDistance, maxDistance, h4, h5, h1];
+module.exports = [h1, minDistance, maxDistance, h4, h5, h6];

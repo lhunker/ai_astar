@@ -30,8 +30,8 @@ board.loadGrid(filename, main);
  * The main function for after the board is loaded
  */
 function main() {
-    var s = board.toString();
-    console.log(s);
+    //var s = board.toString();
+    //console.log(s);
 
     //Find start - add to frontiers
     var start = board.getStart();
