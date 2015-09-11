@@ -1,3 +1,6 @@
+var fs = require('fs');
+//var generate = require('csv-generate');
+
 function generateBoard(){
 
     // variables for width and height of the board
@@ -110,8 +113,9 @@ function generateBoard(){
 }
 
 function makeBoardFile(){
-    var fs = require('fs');
-    fs.writeFile('', generateBoard(), function (err) {
+    //var fs = require('fs');
+    //var generate = require('csv-generate');
+    fs.writeFile('grid.txt', generateBoard(), function (err) {
         if(err){
             return console.log(err);
         }
