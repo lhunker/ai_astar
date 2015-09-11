@@ -33,7 +33,7 @@ Square.prototype.expand = function (board, heuristic) {
 
     //Calculate cost
     neighbors.forEach(function (n) {
-        var h = heuristic(n.location, board.getGoal());
+        var h = heuristic(n.location, board.getGoal(), n.direction);
         n.cost = n.cost + _this.cost;
         n.totcost = h + n.cost;
         n.actions = n.actions + _this.actions;

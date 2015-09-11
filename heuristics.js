@@ -57,11 +57,61 @@ function h4(location, goal) {
  * @param goal Object containing the coordinates of the goal
  * @returns number The estimated cost of the path according to the heuristic
  */
-function h5(square, goal) {
+function h5(square, goal, direction) {
 
     var horizDiff = Math.abs(goal.x - square.x);
     var vertDiff = Math.abs(goal.y - square.y);
-    return horizDiff + vertDiff + 1;
+    var turns = 0;
+    if (goal.x < square.x) {
+        if (goal.y < square.y) {
+            if (direction === 'N' || direction === 'W') {
+                turns += 1;
+            }
+            else {
+                turns += 2;
+            }
+        }
+    }
+    else if (goal.x > square.x) {
+        if (goal.y < square.y) {
+            if (direction === 'N' || direction === 'E') {
+                turns += 1;
+            }
+            else {
+                turns += 2;
+            }
+        }
+    }
+    else if (goal.x < square.x) {
+        if (goal.y > square.y) {
+            if (direction === 'S' || direction === 'W') {
+                turns += 1;
+            }
+            else {
+                turns += 2;
+            }
+        }
+    }
+    else if (goal.x > square.x) {
+        if (goal.y > square.y) {
+            if (direction === 'S' || direction === 'E') {
+                turns += 1;
+            }
+            else {
+                turns += 2;
+            }
+        }
+    }
+    else if ((goal.x < square.x && direction === 'E') || (goal.x > square.x && direction === 'W') || (goal.y < square.y && direction === 'S') || (goal.y > square.y && direction === 'N')) {
+        turns += 2;
+    }
+    else if ((goal.x < square.x && direction === 'W') || (goal.x > square.x && direction === 'E') || (goal.y < square.y && direction === 'N') || (goal.y > square.y && direction === 'S')) {
+        turns += 0;
+    }
+    else {
+        turns += 1;
+    }
+    return horizDiff + vertDiff + turns;
 }
 
 /**
