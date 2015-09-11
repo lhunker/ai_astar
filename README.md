@@ -18,5 +18,9 @@ Note that our nodes expanded may be differant from other groups because we appli
 Our program groups similar moves into one node, for example it will group a bash and the subsequent
 forward into one node.
 
+##Extra Credit
+We implemented code so the robot would run off the map if it is the cheapest option.
+The file clifftest can be used to test this functionality.
+
 ##Authors
 Lukas Hunker, Dan Murray, Brett Ammeson
