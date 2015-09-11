@@ -37,7 +37,6 @@ function main() {
     var start = board.getStart();
     var firstNode = new Square(start, 0, 'Start', 'N', 0);
     frontiers.queue(firstNode);
-    var actions = 0;
 
     //sort in reverse order for pop
     while (!board.isGoal(frontiers.peek().getLocation())) {
