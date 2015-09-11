@@ -313,8 +313,8 @@ Board.prototype.getNeighbors = function(x, y, path, facing) {
 Board.prototype.toString = function() {
     var s = '';
     // Iterate through grid
-    for (var y = 0; y < 4; y++) {
-        for (var x = 0; x < 4; x++) {
+    for (var y = 0; y < this.grid.length; y++) {
+        for (var x = 0; x < this.grid[y].length; x++) {
             s += this.at(x, y) + ' ';
         }   
         s += '\n';

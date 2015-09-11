@@ -35,7 +35,7 @@ function main() {
 
     //Find start - add to frontiers
     var start = board.getStart();
-    var firstNode = new Square(start, 1, 'Start', 'N', 0);
+    var firstNode = new Square(start, 0, 'Start', 'N', 0);
     frontiers.queue(firstNode);
 
     //sort in reverse order for pop
@@ -68,4 +68,5 @@ function pushToQueue(arr) {
         frontiers.queue(item);
     });
 }
+
 
