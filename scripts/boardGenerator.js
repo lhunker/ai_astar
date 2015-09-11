@@ -3,8 +3,8 @@ var fs = require('fs');
 function generateBoard(){
 
     // variables for width and height of the board
-    var width = Math.random();
-    var height = Math.random();
+    var width = 4;
+    var height = 4;
 
     // variables for iterating through rows and columns
     var i;
@@ -23,8 +23,8 @@ function generateBoard(){
     // the position in the row for goal and start (I decided, at least for now,
     // that the start should be on the bottom row and the start should be on
     // the top row)
-    var goalLocation = Math.random()%width;
-    var startLocation = Math.random()%width;
+    var goalLocation = randomNumber(0, width-1);
+    var startLocation = randomNumber(0, width-1);
 
     // for each row
     for (i = 0; i < height; i++){
@@ -41,12 +41,12 @@ function generateBoard(){
                         // if this is the first entry in the row
                         if (j === 0) {
                             // just add 'G' for the goal space
-                            boardString.concat('G');
+                            boardString = boardString + 'G';
                         }
                         // for any other place in the row
                         else {
                             // add a tab character to separate entries, then 'G' for goal
-                            boardString.concat('\t' + 'G');
+                            boardString = boardString + '\t' + 'G';
                         }
 
                         // set hasGoal to true and move on to the next entry
@@ -65,12 +65,12 @@ function generateBoard(){
                         // if this is the first entry in the row
                         if (j === 0) {
                             // just add 'S' for the start space
-                            boardString.concat('S');
+                            boardString = boardString + 'S';
                         }
                         // for any other place in the row
                         else {
                             // add a tab character to separate entries, then 'S' for start
-                            boardString.concat('\t' + 'S');
+                            boardString = boardString + '\t' + 'S';
                         }
 
                         // set hasStart to true and move on to the next entry
@@ -87,36 +87,41 @@ function generateBoard(){
             if (j < width) {
 
                 // set a random value between 1 and 9 as the value for the current entry
-                entry = ((Math.random()) % 9) + 1;
+                entry = randomNumber(1, 9);
 
                 // if this is the first entry in the row
                 if (j === 0) {
                     // just add the entry value
-                    boardString.concat(entry);
+                    boardString = boardString + entry;
                 }
                 // for any other place in the row
                 else {
                     // add a tab character to separate entries, then the entry value
-                    boardString.concat('\t' + entry);
+                    boardString = boardString + '\t' + entry;
                 }
             }
         }
         // for every row except the last one
         if(i < height - 1){
             // add a newline character at the end to start a new row
-            boardString.concat('\n');
+            boardString = boardString + '\n';
         }
     }
 
     return boardString;
 }
 
+function randomNumber(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function makeBoardFile(){
-    fs.write('grid.txt', generateBoard(), function (err) {
+    var boardString = generateBoard();
+    fs.writeFile('grid.txt', boardString, function (err) {
         if(err){
             return console.log(err);
         }
-        console.log('The file was saved!');
+        console.log('File grid.txt was saved!');
     });
 }
 
