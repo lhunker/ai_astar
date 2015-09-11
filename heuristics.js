@@ -61,7 +61,7 @@ function h5(square, goal) {
 
     var horizDiff = Math.abs(goal.x - square.x);
     var vertDiff = Math.abs(goal.y - square.y);
-    return horizDiff + vertDiff + 3;
+    return horizDiff + vertDiff + 1;
 }
 
 /**
